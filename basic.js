@@ -2,13 +2,19 @@
 undefined, null, boolean, string, symbol, number, and objects
 */
 
-var myName = "Pedro"
+var myName = "Pedro"; // Will be globally or locally if declared inside a function. / Can declare twice
 
-myName = 8
+var myName = 8;
 
-let ourName = "PH - Solucoes Web"
+let ourName = "PH - Solucoes Web";  // Work in block {} scope. / Can't declare twice
+let ourName = 10  // get error
+ourName = 10 // not return error
 
-const pi = 3.14
+function catTalk() {
+    "use strict";  // this string in the begining of function of file will enforce some security restrictions.
+}
+
+const PI = 3.14; // is read only / is block scope
 
 // ------------------
 // declaring  variable
@@ -281,5 +287,49 @@ function lookUpProfile(name, prop){
 
 var data = lookUpProfile("Sherlock", "FistName")
 
-//-------------/ Generate random Fractions
-//https://youtu.be/PkZNo7MFNFg?t=8899
+//-------------/ Ternary operator
+
+function checkEqual(a,b) {
+    return a === b ? true : false
+    return a === b // this code do the same thing
+}
+
+function checkSign(num) {
+    return num > 0 ? "positive" : num < 0 ? "negative" : "zero"
+}
+
+//-----------/ Mutate an array declared with const
+const s = [5, 6, 7]
+s[0] = 3; // get no error
+
+
+//----------/freeze a object (python dictionary)
+function freezeObj() {
+    "use strict";
+    const MATH_CONSTANTS = {
+    PI : 3.14
+    };
+    Object.freeze(MATH_CONSTANTS);
+
+    try {
+        MATH_CONSTANTS = 99;
+    } catch( ex ) {  // this will catch errors
+        console.log(ex);
+    }
+    return MATH_CONSTANTS.PI;
+}
+
+const PI = freezeObj();
+
+//-------/ Use Arrow functions to write concise anonymous functions
+var magic = function() {
+    return new Date();
+}
+
+const magic = () => new Date();
+
+// With parameters
+
+const myConcat = (arr1, arr2) => arr1.concat(arr2);
+myConcat([1,3], [3,4,5]);
+
