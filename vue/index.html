@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./vue_tutorial.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .box {
+            background-color: purple;
+            height: 200px;
+            width: 200px;
+        }
+        [v-cloak] {  /* This will prevent worg rendering in que initial rendering*/
+            display: none;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+<div id="app" v-cloak>
+    (% greeting %)
+    <br>
+    <input v-model="greeting">
+    <br>
+    <div v-if="isVisible" class="box"><p>(v-if) Will remove or add element in the DOM. </p></div>
+    <div v-else-if="isVisible2" class="box"><p>(v-else-if) Will remove or add element in the DOM. </p></div>
+    <div v-else class="box"><p>(v-else) Will remove or add element in the DOM. </p></div>
+    <div v-show="is_v_show_Visible" class="box"><p>(v-show) Will set display to none or to block.</p></div>
+    <hr>
+    <div v-show="changeable_box" class="box"><p>This box can be changed by a button event.</p></div>
+    <button v-on:click="changeable_box = !changeable_box">Show Box</button>
+    <hr>
+    <div v-show="changeable_box2" class="box"><p>This box can be changed by a button event with a function.</p></div>
+    <button @click.prevent.stop.right="toggleBox">Toggle Box(with right button, prevent and stop modifiers)</button>
+    <hr>
+    (% field %)
+    <input @keydown.enter="take_Field" v-model="field">Get input</input>
+    <hr>
+    (% field2 %)
+    <input @keydown.enter="take_Field_with_param(field2 + '!!!!')" v-model="field2">Get input</input>
+
+
+</div>
+<script>
+    let app = Vue.createApp({
+        delimiters: ["(%", "%)"],
+        data: function() {
+            return {
+                greeting: "Hello Vue 3!",
+                isVisible: false,
+                isVisible2: false,
+                is_v_show_Visible: true,
+                changeable_box: true,
+                changeable_box2: true,
+                changeable_box3: true,
+                changeable_box4: true,
+                field: "",
+                field2: "",
+            }
+        },
+        methods: {
+            toggleBox() {
+                this.changeable_box2 = !this.changeable_box2
+            },
+            toggleBox2() {
+                this.changeable_box3 = !this.changeable_box3
+            },
+            take_Field() {
+                console.log(this.field)
+            },
+            take_Field_with_param(param) {
+                console.log(param)
+            }
+        }
+    })
+    app.mount("#app")
+</script>
+</body>
+</html>
