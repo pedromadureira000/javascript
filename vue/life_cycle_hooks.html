@@ -12,99 +12,48 @@
             height: 200px;
             width: 200px;
         }
-
-        [v-cloak] {
-            /* This will prevent worg rendering in que initial rendering*/
-            display: none;
-        }
-
-        input {
-            margin: 10px;
-            display: block;
-        }
     </style>
     <title>Document</title>
 </head>
 
 <body>
-    <div id="app" v-cloak>
-        <login-form />
+    <div id="app">
+            <button @click="changeable_box">Toogle Box</button>
+            <test-box v-if="isVisible" />
     </div>
     <script>
         let app = Vue.createApp({
-            delimiters: ["(%", "%)"],
             data: function () {
                 return {
+                    isVisible: false
                 }
             },
             methods: {
-                }
-        })
-        app.component('login-form', {
-            delimiters: ["(%", "%)"],
-            components: ['custom-input'],
-            template: `
-        <form @submit.prevent='handleSubmit'>
-            <h1>(% title %)</h1>
-            <custom-input 
-                v-for="(input, i) in inputs"
-                :key="i"
-                v-model="input.value"
-                :label="input.label"
-                :type="input.type"
-            />  
-            <button>Log in </button>
-        </form>
-        `,
-            data() {
-                return {
-                    title: 'Login Form',
-                    inputs: [
-                        {
-                        label: "Email",
-                        value: "",
-                        type: "email"
-                        },
-                        {
-                        label: "Password",
-                        value: "",
-                        type: "password"
-                        },
-                    ]
+                changeable_box: function () {
+                    this.isVisible = !this.isVisible
                 }
             },
-            methods: {
-                handleSubmit() {
-                    console.log('email: ' + this.inputs[0].value, ', password: ' + this.inputs[1].value);
-                }
+            updated() { // this will be trigged becouse 'isVisible' is changed.
+                console.log('update')
             }
 
         })
-        app.component('custom-input', {
-            template: `
-                <label>
-                 {{ label }} 
-                    <input :type="type" v-model="inputValue">
-                </label>
-                `,
-            props:  ['label', 'modelValue', 'type'],
-            computed: {
-                inputValue: {
-                    get(){
-                    return this.modelValue;
-                    },
-                    set(value){
-                        console.log(value)
-                        this.$emit('update:modelValue', value) 
-                    }
-                },
-                
+        app.component('test-box', {
+            template:  `
+        <div class="box">
+            <p>(v-if) Will remove or add element in the DOM. </p>
+        </div>
+            `,
+            created() {
+                console.log("created")
+            }, 
+            mounted() {
+                console.log("mounted")
             },
-            // data() {
-            //     return {
-            //         inputValue: ''
-            //     }
-            // }
+            unmounted() {
+                console.log("unmounted")
+            }
+
         })
         app.mount("#app")
     </script>
