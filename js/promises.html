@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+    //----------------------------------/ promises async and not async way/-------------------------------------
+    const tick = Date.now();
+    const log = (v) => console.log(`${v} \n Elapsed: ${Date.now() - tick}`) 
+
+    //-----wrong way | The while will execute in the main thread
+    const codeBlocker = () => {
+        return new Promise((resolve, reject) => {
+            let i = 0;
+            while(i<100000000) { i++;}
+            resolve("Billion loops done");
+        })
+    }
+    
+
+    log("synchronous 1")
+    codeBlocker().then(log)
+    log("synchronous 2")
+
+    //-----right way | the while loop will execute as a micro task in the queue
+    // it will execute after all the synchronous code in the current macro task has completed
+    const codeBlocker2 = () => {
+        return Promise.resolve().then(v=> { 
+            let i =0;
+            while(i < 100000000) {i++;}
+            return "Billion loops done";
+       })
+    }
+    log("synchronous 1")
+    codeBlocker2().then(log)
+    log("synchronous 2")
+
+    //----------------------------------/ Basic exemple of promises/-------------------------------------
+        let p = new Promise((resolve, reject) =>{ //we use arrow fuction
+           let a = 1+1
+           if (a == 2) {
+               resolve("Success")
+           } else {
+               reject("Failed")
+           }
+        })
+
+        p.then((message) => {
+            console.log("This is the 'then' " + message)
+        }).catch((message) => {
+            console.log("This is the 'catch' " + message)
+        })
+
+        //-------------------------/ using promises instead of callbacks
+        const userLeft = false
+        const userWatchingCatMeme = false
+
+        function watchTutorialPromise() {
+            return new Promise((resolve, reject) => {
+                if (userLeft) {
+                    reject({
+                        name: "User left",
+                        message: ":("
+                    })
+                } else if (userWatchingCatMeme) {
+                    reject({
+                        name: "User watching cat meme", 
+                        message: "WebDebSimplified < Cat"
+                    })
+                } else {
+                    resolve('Thumbs up and subscribe')
+                }
+            })
+        }
+
+        watchTutorialPromise().then((message) => {
+            console.log("Success: " + message)
+        }).catch((error) => {
+            console.log(error.name + '' + error.message)
+        })
+        
+        // ------------------------/do something after multiple promises---------------------------------
+        const recordVideoOne = new Promise((resolve, reject) => {
+            resolve("Video 1 Recorded")
+        })
+        const recordVideoTwo = new Promise((resolve, reject) => {
+            resolve("Video 2 Recorded")
+        })
+        const recordVideoThree = new Promise((resolve, reject) => {
+            resolve("Video 3 Recorded")
+        })
+
+        Promise.all([ //run all promises at the same time, and return all function responses in an array
+            recordVideoOne,
+            recordVideoTwo,
+            recordVideoThree
+        ]).then((messages) => console.log(messages)) 
+
+
+        Promise.race([ //run all promises at the same time, and return the response with come out first
+            recordVideoOne,
+            recordVideoTwo,
+            recordVideoThree
+        ]).then((messages) => console.log(messages)) // 'then' will return an array with all success messages
+ 
+    </script>
+    
+</body>
+</html>

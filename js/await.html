@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+    //----------------------------------/ promises async and not async way/-------------------------------------
+    const tick = Date.now();
+    const log = (v) => console.log(`${v} \n Elapsed: ${Date.now() - tick}`) 
+
+    //----- without await 
+    const getFruit = (name) => {
+        const fruits = {
+            pineapple: 'pn',
+            peach: 'peach',
+            strawberry: 'straw'
+        }
+        return Promise.resolve(fruits[name]);
+    }
+    getFruit('peach'.then(console.log))
+
+    //----- with await
+    const getFruit = async (name) => {
+        const fruits = {
+            pineapple: 'pn',
+            peach: 'peach',
+            strawberry: 'straw'
+        }
+        return fruits[name]; // this will be altomaticly resolved as a promised
+                            //it's also sets up a context to use 'await' keyword
+    }
+    getFruit('peach'.then(console.log))
+
+    //----- / THe real power of the async function comes when you combine it with 
+    // await keyword to pause the execution of the function
+
+    //---------------------/ async + await/--------------------------
+//-- async wrong way | the second await will run only after the first finished
+    const makeSmoothie = async() => {
+        const a = await getFruit('pineapple')
+        const b = await getFruit('strawberry')
+        return [a, b];
+    }
+//-- async right way
+    const makeSmoothie = async() => {
+        const a = getFruit('pineapple')
+        const b = getFruit('strawberry')
+        const smoothie = await Promise.all([a, b]);
+        return smoothie
+    }
+
+//-- same thing without async 
+//    const makeSmoothie2 = () => {
+//        let a;
+//        return getFruit('pineapple')
+//         .then(v => {
+//             v = a;
+//             return getFruit('strawberry')
+//         })
+//         .then(v=> [v, a])
+//    }
+
+
+    makeSmoothie().then(console.log)
+
+//------------------------------------/ Async + await + error handling/------------------------------
+    const makeSmoothie = async() => {
+        try {
+            const a = getFruit('pineapple')
+            const b = getFruit('strawberry')
+            const smoothie = await Promise.all([a, b]);
+
+            throw "broken!"
+            return smoothie
+            
+        } catch (error) {
+            console.log(error)
+            return `We are going to be fine...` // it's like ignoring the error and providing some replacement value
+            // throw `It's broken` //This will break the the consumer promise chain and it'll be handled by catch callback 
+            
+        }
+            }
+
+//-----------------------------------/ Another exemple /-----------------------------------------
+    // use array map to convert them to an array of promises, and resolve them all concurrently using promise.all 
+    const fruits = ['peach', 'pineapple', 'strawberry']; 
+    const smoothie = fruits.map(v => getFruit(v)); 
+    const fruitLoop = async() => {
+        for await (const varname of smoothie) {
+            log(varname)
+        }
+        //use the await keyword directly in a for loop if you have a promise that you know results to an array, 
+        //you can actually just use the await keyword directly in your loop, so you can say 'for await' in your
+        //code, with will await the array of items to resolve and then loop over them immediately after.
+    }
+    fruitLoop();
+
+    // using await with conditions
+    const fruitInspection = async () => {
+        if (await getFruit('peach') === 'peach') {
+            console.log('looks peachy!')
+        }
+    }
+
+
+    </script>
+    
+</body>
+</html>
