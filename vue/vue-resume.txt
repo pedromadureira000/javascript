@@ -1,0 +1,94 @@
+### ---------------/ type events
+
+- @keyup.enter, @keyup.esc
+- @click.right
+- @mouseenter, @mouseleave
+
+### ----------------/directives
+
+- v-show="condition.anyprop"
+- v-if, v-show
+- v-bind  (for set styles and classes with some condition)
+    
+    shorthand:    'colon'  
+    
+
+```jsx
+<input v-bind:class="{'error' : message.lengh > 22 } />
+<input :class="{'error' : message.lengh > 22 } />
+```
+
+```jsx
+<input :style="errorStyle" />
+------
+computed: {
+	errorStyle() {
+		if (this.message.length > 22) {
+			return {'color': 'red', 'background' : 'pink'}
+			}
+	}
+}
+
+```
+
+###  ----------------/ computed properties (componet option)
+
+- Methods will be treated like properties and you dont need of () to execute them.
+- This resolves the problem that happens when you execute a method inside the template, with every time that the template changes, the method will be executed
+- inside computed properties, you have access to data(), and methods().
+
+```jsx
+<template>
+<input @click="increment++">
+{{ increment }}
+{{ someMethod() }}
+</template>
+// every time the click event happens and it changes increment value, it will 
+//trigger the someMethod function
+```
+
+###  ----------------/filters (component option)
+
+- is like django template filters
+- inside the filter you dont have access to data, or methods
+
+```jsx
+filters: {
+	messageLowerCase(value) {
+		return value.toLowerCase()
+	}
+```
+
+template usage
+
+```jsx
+{{ message | messageLowerCase }}
+```
+
+###  ----------------/DIRECTIVES (component option)
+
+```jsx
+<input v-mydirective/>
+```
+
+```jsx
+directives: {
+	mydirective: {
+			inserted(el) {
+				console.log('input inserted')
+				el.focus() //will start page with input in focus state
+					}
+		}
+}
+```
+
+### ----------------/ REFS
+
+You will not use for apply styles, but for form validations, auto focus fields
+```jsx
+<input ref=messageInput />
+_______
+mounted() {
+	console.log(this.$refs)
+	this.$refs.messageInput.className = 'bg-green'
+}

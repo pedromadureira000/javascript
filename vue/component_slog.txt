@@ -1,0 +1,5 @@
+<component>{{some.propertie}} </component>
+_____/inside component/_______________
+<template>
+    <slot></slot>  //this will receive the 'some.propertie'f
+</template>

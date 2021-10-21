@@ -1,0 +1,246 @@
+### Arrow functions
+
+- arrow functions
+    
+    ```python
+    function sum(a,b) {
+    return a + b
+    }
+    ```
+    
+    ```jsx
+    let sum2 =(a, b) => a + b // 2 parameters
+    
+    let isPositive = number => number >= 0 // 1 parameter
+    
+    let randowNumber2 = () => Math.random  // no parameters
+    
+    let sum3 = (a, b) => {  // with body in the return
+    		let resp = a + b;
+    		return resp
+    								}
+    ```
+    
+    ### Arrow function redefine "this"
+    
+    Arrow function redefine "this" keyword inside of them, as opposed to normal functions, they use this keyword much differenty.
+    
+    - Arrow function
+        
+        Use "this" in the scope of the parent function ( will use class properties for exemple)
+        
+    - Normal named function
+        
+        Use "this" in the global scope. (will not find class properties if you use normal function) 
+        
+
+### ?
+
+- ?
+    
+    **ternary expression**
+    
+    <condiction_to_test> ?  <value_if_truthy>: <value_if_falsy>
+    
+    ```jsx
+    // imperative if statement
+    let status;
+    if (bankAccount > 100) {
+    	status = "rich";
+    } else {
+    		status = "poor";
+    }
+    // declarative ternary operator expression
+    const status = bankAccount > 100 ? 'rich' : 'poor';
+    ```
+    
+    declarative code can also be used in functions arguments, and array and object literals.
+    
+    ```jsx
+    fun(cond ? a: b)
+    
+    const obj = {
+    	prop: cond ? a: b
+    	}
+    
+    const arr = [
+    	cond ? a: b
+    	]
+    ```
+    
+    **Optional chaining**
+    
+    ```jsx
+    const user = {
+    	name: 'Jeff'
+    	}
+    user.write?.code()  //will return undefined if the property is undefined 
+    // instead of throwing an error.
+    ```
+    
+    **Nullish coalescing**
+    
+    ```jsx
+    const order = {
+    	amount: 0 || 23.99,
+    	description: "" ?? "some product",  // will evaluate only 'undefined' and 
+    																		  // 'null' as false.
+    ```
+    
+
+### Builtin stuff
+
+- builtin stuff
+    
+    **functios**
+    
+    ```jsx
+    setTimeout( someFunctionForCallback,  50); // execute function after some time
+    ```
+    
+    map array
+    
+    ```jsx
+    arr = [1,5,6,7]
+    const = squared2 = arr.map(x => x ** 2);
+    // if you want to reuse the code, you can do this
+    squareIt = x => x ** 2
+    const = squared2 = arr.map(squareIt);
+    ```
+    
+    obs: this will be less performant that regular for loop (but this will not make really difference)
+    
+
+### Destructuring
+
+- destructuring
+    
+    ```jsx
+    arr = ['baccon', 'pizza', 'fries']
+    const [bacon, pizza, fries ] = arr
+    // ignore values
+    const [,,fries] = arr
+    // array with rest
+    const [bacon, ...rest] = arr
+    // set default value in case of the value in the array is undefined
+    const [bacon = 'bc', pizza, fries ] = arr
+    ```
+    
+    ```jsx
+    const obj = {
+    	shroom: 'sh',
+    	banana: 'banana',
+    	pepper: 'ppeper',
+    	'kebab-case': 'ccc',
+    	}
+    const { shroom, banana, pepper} = obj
+    // rename properties
+    const { shroom: mushroom, banana, pepper} = obj
+    const {'kebab-case': mushroom} = obj
+    ```
+    
+    ```jsx
+    const obj = {
+    		parent: {
+    				child: 'child'
+    						},
+    }
+    const {parent: { child } } = obj
+    ```
+    
+
+### Promises
+
+- promises
+    
+    Manages a single async value that can be handled in the future
+    
+    ```jsx
+    promise
+    	.then
+    	.then
+    	.then
+    	.catch
+    	.finally
+    ```
+    
+    obs: (all these methods return promises, which means they can be chained togheder to 
+    together to handle multiple ascychronous operations in a row)
+    
+    ```jsx
+    let p = new Promise((resolve, reject) =>{ //we use arrow fuction
+               let a = 1+1
+               if (a == 2) {
+                   resolve("Success")
+               } else {
+                   reject("Failed")
+               }
+            })
+    
+    p.then((message) => {
+                console.log("This is the 'then' " + message)
+            }).catch((message) => {
+                console.log("This is the 'catch' " + message)
+           })
+    ```
+    
+    ```jsx
+    const userLeft = false
+    const userWatchingCatMeme = false
+    function watchTutorialPromise() {
+                return new Promise((resolve, reject) => {
+                    if (userLeft) {
+                        reject({
+                            name: "User left",
+                            message: ":("
+                        })
+                    } else if (userWatchingCatMeme) {
+                        reject({
+                            name: "User watching cat meme", 
+                            message: "WebDebSimplified < Cat"
+                        })
+                    } else {
+                        resolve('Thumbs up and subscribe')
+                    }
+                })
+            }
+    watchTutorialPromise().then((message) => {
+                console.log("Success: " + message)
+            }).catch((error) => {
+                console.log(error.name + '' + error.message)
+            })
+    ```
+    
+    **Promise.all**
+    
+    ```jsx
+    const recordVideoOne = new Promise((resolve, reject) => {
+                resolve("Video 1 Recorded")
+            })
+    const recordVideoTwo = new Promise((resolve, reject) => {
+                resolve("Video 2 Recorded")
+            })
+    const recordVideoThree = new Promise((resolve, reject) => {
+                resolve("Video 3 Recorded")
+            })
+    Promise.all([ //run all promises at the same time, and return all function responses in an array
+                recordVideoOne,
+                recordVideoTwo,
+                recordVideoThree
+            ]).then((messages) => console.log(messages))
+    ```
+    
+    **Promise.race**
+    
+    ```jsx
+    Promise.race([ //run all promises at the same time, and return the response with come out first
+                recordVideoOne,
+                recordVideoTwo,
+                recordVideoThree
+            ]).then((messages) => console.log(messages)) // 'then' will return an array with all success messages
+    ```
+    
+
+### Async Awayt
+
+Avoids callback hell, or pyramid of doom 

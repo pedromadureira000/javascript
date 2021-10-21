@@ -44,15 +44,23 @@
             <p>(v-if) Will remove or add element in the DOM. </p>
         </div>
             `,
-            created() {
+            beforeCreate() {},
+            created() { //markup is not commited to the browser yet
                 console.log("created")
             }, 
-            mounted() {
+            beforeMount() {}, 
+            mounted() { 
+        // markup for component has actually been committed to the view, so you now can 
+        //view it in the brownser
                 console.log("mounted")
             },
             unmounted() {
                 console.log("unmounted")
-            }
+            },
+            beforeUpdate() {},
+            updated() {},
+            beforeDestroy() {},
+            destroyed() {},
 
         })
         app.mount("#app")

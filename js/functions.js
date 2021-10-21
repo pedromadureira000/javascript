@@ -72,84 +72,16 @@ let a = 8, b = 6;
 const source = [1,2,3,4,5,6]
 function removeFirstTwo(list) {
     // const [a, b, ..arr] = list;
-    const [, , ..arr] = list; // remove first 2 elements from array
+    const [, , ...arr] = list; // remove first 2 elements from array
     return arr;
 }
 const arr = removeFirstTwo(source);
 console.log(arr); // [3,4,5,6]
 console.log(source); // [1,2,3,4,5,6]
 
-// useful dictionary unpacking with apis
 
-const stats = {
-    max: 55.66,
-    standard_derivation: 53.5,
-    median: 53.56,
-    min: -0.54
-};
-const half = (function()) {
-    return function half( {max, min}) {
-        return (max + min) / 2.0;
-    };
-})();
-console.log(half(stats));
+//-----------------------importing and exporting-----------------------
 
-// create string using template literals
-const person = {
-    name: "Zodiac Hasbro",
-    age: 56
-};
-
-const greeting = `Hello, my name is ${person.name}!
-I am ${person.age} years old.`;
-console.log(greeting)
-
-// ----/ create object (dictionary)
-const createPerson = (name, age, gender) => ({name, age, gender});
-console.log(createPerson("Zodiac Hasbro", 56, "male"));
-
-//-----/function inside object
-const bicycle = {
-    gear: 2,
-    setGear(newGear) {
-        "user strict";
-        this.gear = newGear;
-    }
-};
-bicycle.setGear(3);
-console.log(bicycle.gear);
-
-//------/ user class syntax to define a constructor function
-//without class syntax
-var SpaceShuttle = function(targetPlanet){
-    this.targetPlanet = targetPlanet;
-}
-var zeus = new SpaceShuttle("Jupiter")
-console.log(zeus.targetPlanet)
-
-//with class syntax
-class SpaceShuttle {
-    constructor (targetPlanet) {
-        this.targetPlanet = targetPlanet;
-    }
-}
-var zeus = new SpaceShuttle("Jupiter");
-console.log(zeus.targetPlanet)
-
-//-----/ getter and setter
-class Book {
-    constructor(author) {
-        this._author = author;
-    }
-    // getter
-    get writer(){
-        return this._author;
-    }
-    // setter
-    set writer(updatedAuthor) {
-        this._author = updatedAuthor;
-    }
-}
 
 //-----/ understand the differences between import and require
 import { capitalizeString } from "./string_function"

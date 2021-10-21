@@ -1,0 +1,44 @@
+## Installation and configuration
+
+- 
+    
+    ## Install vue CLI
+    
+    ```jsx
+    npm install -g @vue/cli
+    ```
+    
+    ## create project
+    
+    ```jsx
+    vue create prject-name
+    ```
+    
+    create 'vue.config.js', inside projectdirectory
+    
+    ```jsx
+    module.exports = {
+      outputDir: '../../django-vue/django_vue/base/templates',
+      assetsDir: '../../base/static'
+    }
+    ```
+    
+    run in the same directory of 'vue.config.js'
+    
+    ```jsx
+    npm run build
+    ```
+    
+    run in npm
+    
+    ```jsx
+    npm run serve
+    ```
+    
+    ## sass
+    
+    [https://cli.vuejs.org/guide/css.html#referencing-assets](https://cli.vuejs.org/guide/css.html#referencing-assets)
+    
+    ```jsx
+    npm install -D sass-loader@^10 sass
+    ```

@@ -1,0 +1,8 @@
+import Task from 'components/Task.vue'
+components: {
+    'tast': Task 
+}
+_______________________
+components: {
+    'tast': required('components/Task.vue').default
+}
